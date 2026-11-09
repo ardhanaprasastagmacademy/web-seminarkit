@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageBanner from '../../components/PageBanner.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import CtaSection from '../../components/CtaSection.astro';
+import { products } from '../../data/products.js';
+
+const breadcrumbs = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Produk' }
+];
+
+const pageTitle = 'Souvenir Kantor Custom Logo — Katalog Seminarkit';
+const pageDesc = 'Lihat katalog souvenir kantor dan seminar kit dengan harga jelas. Paket eksekutif, tote bag kanvas tebal, dan onboarding kit. Pesan via WhatsApp.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} breadcrumbs={breadcrumbs}>
+  <PageBanner
+    title="Katalog Produk & Seminar Kit"
+    description="Pilihan paket seminar kit eksklusif, tas kanvas korporat, dan merchandise kantor dengan opsi kustomisasi logo beresolusi tinggi."
+    breadcrumb={breadcrumbs}
+  />
+
+  <!-- 3 Product Cards Section -->
+  <section class="section section-cream-50">
+    <div class="container">
+      <div class="products-catalog-grid">
+        {products.map((p) => (
+          <ProductCard product={p} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Comprehensive SEO Content Section (300 - 500 words) -->
+  <section class="section section-cream-100">
+    <div class="container">
+      <div class="catalog-seo-block">
+        <span class="eyebrow">Informasi Pengadaan</span>
+        <h2 class="seo-heading">Layanan Pembuatan Souvenir Kantor &amp; Seminar Kit Custom</h2>
+        
+        <div class="prose">
+          <p>
+            Seminarkit menyediakan solusi pengadaan souvenir kantor dan seminar kit custom yang disesuaikan secara khusus dengan kebutuhan acara formal, konferensi ilmiah, rapat kerja tahunan, serta program penyambutan staf baru. Dalam dunia korporat, cinderamata yang diserahkan kepada tamu undangan maupun karyawan bukan sekadar kenang-kenangan biasa, melainkan media strategis untuk membangun ikatan relasi, memperkuat loyalitas merek (brand recall), dan menampilkan kredibilitas profesional organisasi Anda.
+          </p>
+          
+          <h3>Pilihan Bahan Baku dan Standar Mutu</h3>
+          <p>
+            Seluruh item yang kami produksi melewati kurasi material yang ketat. Pada kategori tas, kami mengutamakan penggunaan kain kanvas katun 12oz berkekuatan tinggi dengan serat rapat dan ritsleting YKK asli agar kuat menopang beban berat berkas seminar. Untuk buku agenda, kami menggunakan lembaran bookpaper bertekstur nyaman dengan sampul jilid kulit sintetis impor berjahit tepi rapi. Sementara pada kategori tempat minum, botol dan tumbler kami terbuat dari baja tahan karat SUS 304 food-grade berteknologi double-wall vacuum yang aman untuk kesehatan dan terbukti menjaga suhu air panas maupun dingin hingga 12 jam.
+          </p>
+
+          <h3>Teknik Kustomisasi Logo Perusahaan</h3>
+          <p>
+            Kami menyediakan beragam metode aplikasi logo yang disesuaikan dengan jenis bahan:
+          </p>
+          <ul>
+            <li><strong>Laser Marking / Grafir Logam:</strong> Menghasilkan ukiran logo permanen berwarna perak atau keemasan yang tidak akan terkelupas maupun luntur seiring waktu, sangat ideal untuk tumbler stainless steel dan pulpen metal.</li>
+            <li><strong>Emboss &amp; Hot Print Deboss:</strong> Memberikan efek lekukan timbul yang anggun pada permukaan kulit sintetis buku agenda, lanyard, dan dompet kartu nama.</li>
+            <li><strong>Sablon Rubber High Density &amp; Bordir Komputer:</strong> Menghasilkan warna tajam sesuai panduan warna korporat (Pantone) pada media kain tas seminar dan tote bag.</li>
+          </ul>
+
+          <h3>Batas Minimal Order dan Waktu Produksi</h3>
+          <p>
+            Untuk mempertahankan efisiensi biaya dan standar kontrol kualitas yang prima, batas minimum pemesanan (MOQ) dimulai dari 30 unit untuk paket merchandise onboarding, 50 paket untuk seminar kit eksekutif, serta 100 pcs untuk tote bag kanvas. Durasi pengerjaan rata-rata berkisar antara 5 hingga 10 hari kerja setelah lembar persetujuan sampel desain (mockup visual) disetujui. Tim kami juga siap memfasilitasi kebutuhan invoice resmi, surat penawaran, kuitansi bermaterai, dan faktur pajak PPN untuk mempermudah administrasi pembukuan perusahaan Anda.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <CtaSection
+    title="Butuh Konsultasi Kustomisasi Produk?"
+    description="Sampaikan kebutuhan spesifikasi atau jumlah pesanan Anda kepada tim representatif kami untuk mendapatkan penawaran resmi."
+    buttonText="Konsultasi via WhatsApp"
+    source="produk-index-cta"
+  />
+</BaseLayout>
+
+<style>
+  .products-catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .catalog-seo-block {
+    max-width: 860px;
+  }
+
+  .seo-heading {
+    font-size: 36px;
+    margin-bottom: 24px;
+    color: var(--navy-700);
+  }
+
+  @media (max-width: 900px) {
+    .products-catalog-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .seo-heading {
+      font-size: 28px;
+    }
+  }
+</style>

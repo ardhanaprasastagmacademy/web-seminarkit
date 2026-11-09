@@ -1,0 +1,77 @@
+---
+interface Props {
+  testimonial: {
+    quote: string;
+    name: string;
+    role: string;
+    company: string;
+  };
+}
+
+const { testimonial } = Astro.props;
+---
+
+<div class="testimonial-card">
+  <blockquote class="testimonial-quote">
+    “{testimonial.quote}”
+  </blockquote>
+
+  <div class="testimonial-author">
+    <div class="author-name">{testimonial.name}</div>
+    <div class="author-meta">{testimonial.role} · {testimonial.company}</div>
+  </div>
+</div>
+
+<style>
+  .testimonial-card {
+    background-color: var(--cream-50);
+    border: 1px solid var(--cream-300);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .testimonial-quote {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--navy-700);
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .testimonial-author {
+    margin-top: auto;
+    border-top: 1px solid var(--cream-300);
+    padding-top: 18px;
+  }
+
+  .author-name {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .author-meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 900px) {
+    .testimonial-card {
+      padding: 28px 24px;
+    }
+
+    .testimonial-quote {
+      font-size: 19px;
+    }
+  }
+</style>
+

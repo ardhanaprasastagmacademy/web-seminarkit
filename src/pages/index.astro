@@ -1,16 +1,544 @@
 ---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import CtaSection from '../components/CtaSection.astro';
+
+import heroImg from '../assets/hero/hero-seminarkit.webp';
+import aboutImg from '../assets/about/workshop-seminarkit.webp';
+import { products } from '../data/products.js';
+import { galleryItems } from '../data/gallery.js';
+import { testimonials } from '../data/testimonials.js';
+import { faqs } from '../data/faq.js';
+import { waLink } from '../utils/wa.js';
+
+const homeFaqs = faqs.slice(0, 5);
+const homeGallery = galleryItems.slice(0, 6);
+
+const pageTitle = 'Souvenir Kantor Custom dan Seminar Kit — Seminarkit';
+const pageDesc = 'Souvenir kantor dan seminar kit custom logo perusahaan. Paket eksklusif, tote bag kanvas, dan merchandise korporat. Konsultasi & pesan via WhatsApp.';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={pageTitle} description={pageDesc} faqs={homeFaqs}>
+  <!-- 1. Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="hero-accent-line" aria-hidden="true"></div>
+        <span class="eyebrow">Vendor Merchandise &amp; Seminar Kit</span>
+        <h1 class="hero-title">Souvenir Kantor &amp; Seminar Kit Custom Perusahaan</h1>
+        <p class="hero-lead">
+          Penyedia perlengkapan seminar eksklusif dan merchandise kantor berstandar korporat. Hasil pengerjaan rapi, waktu produksi pasti, dan pengiriman aman ke seluruh Indonesia.
+        </p>
+        <div class="hero-buttons">
+          <a
+            href={waLink('Halo Seminarkit, saya ingin berkonsultasi mengenai pemesanan souvenir kantor.', 'hero')}
+            class="btn btn-primary"
+            data-wa-source="hero"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Pesan via WA
+          </a>
+          <a href="/produk/" class="btn btn-secondary">
+            Lihat Produk
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-image-frame">
+          <Image
+            src={heroImg}
+            alt="Katalog pilihan paket seminar kit eksekutif Seminarkit"
+            width={800}
+            height={1000}
+            class="hero-img"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Tentang Section -->
+  <section class="section section-cream-50 about-brief-section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-visual">
+          <Image
+            src={aboutImg}
+            alt="Fasilitas workshop dan pengerjaan seminar kit Seminarkit"
+            width={720}
+            height={540}
+            class="about-img"
+            loading="lazy"
+          />
+        </div>
+        <div class="about-text">
+          <span class="eyebrow">Tentang Seminarkit</span>
+          <h2 class="section-title">Dedikasi Mutu untuk Cinderamata Kantor Berkelas</h2>
+          <p class="section-desc">
+            Seminarkit hadir sebagai mitra terpercaya bagi ratusan perusahaan, institusi pemerintah, dan event organizer di Indonesia. Kami memahami bahwa souvenir kantor bukan sekadar barang pajangan, melainkan perpanjangan reputasi dan citra profesional organisasi Anda.
+          </p>
+          <p class="section-desc">
+            Dari pemilihan bahan baku kanvas, kulit sintetis, hingga baja tahan karat food-grade, setiap pesanan diproduksi dengan kontrol kualitas bertahap agar memenuhi standar representasi terbaik.
+          </p>
+          <div class="about-action">
+            <a href="/tentang/" class="btn btn-secondary">
+              Selengkapnya tentang kami
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Kenapa Pilih Kami Section (Numbered List with Large Serif) -->
+  <section class="section section-cream-100 why-us-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Standar Kerja Kami</span>
+        <h2 class="section-title">Mengapa Memilih Seminarkit</h2>
+        <p class="section-lead">
+          Komitmen profesional kami dibangun di atas transparansi, presisi hasil cetak, dan ketepatan tenggat waktu acara Anda.
+        </p>
+      </div>
+
+      <div class="why-list">
+        <div class="why-item">
+          <span class="why-num">01</span>
+          <div class="why-content">
+            <h3 class="why-title">Material Berkualitas Terkurasi</h3>
+            <p class="why-desc">
+              Kain kanvas 12oz tebal, agenda kulit sintetis bertekstur rapat, serta tumbler stainless SUS 304 tahan uji yang menjamin daya tahan pakai lama.
+            </p>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <span class="why-num">02</span>
+          <div class="why-content">
+            <h3 class="why-title">Presisi Cetak &amp; Laser Grafir</h3>
+            <p class="why-desc">
+              Didukung mesin laser marking berteknologi modern, sablon rubber densitas tinggi, dan deboss presisi agar logo perusahaan tampil tajam dan elegan.
+            </p>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <span class="why-num">03</span>
+          <div class="why-content">
+            <h3 class="why-title">Kepastian Jadwal Produksi</h3>
+            <p class="why-desc">
+              Jadwal kerja terencana dengan garansi tanggal serah terima pasti sebelum hari H pelaksanaan seminar atau agenda pertemuan Anda.
+            </p>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <span class="why-num">04</span>
+          <div class="why-content">
+            <h3 class="why-title">Kemudahan Asistensi Desain</h3>
+            <p class="why-desc">
+              Tim desainer kami siap membuatkan simulasi mockup digital 2D/3D proporsional untuk memastikan kesesuaian penempatan logo sebelum diproduksi massal.
+            </p>
+          </div>
+        </div>
+
+        <div class="why-item">
+          <span class="why-num">05</span>
+          <div class="why-content">
+            <h3 class="why-title">Pengiriman Seluruh Nusantara</h3>
+            <p class="why-desc">
+              Bekerja sama dengan ekspedisi kargo resmi berfasilitas packing protektif dan asuransi pengiriman untuk keselamatan barang hingga tujuan.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Produk Section (3 Cards) -->
+  <section class="section section-cream-50 products-section">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <span class="eyebrow">Katalog Pilihan</span>
+          <h2 class="section-title">Produk Souvenir &amp; Seminar Kit</h2>
+        </div>
+        <a href="/produk/" class="text-link">
+          Lihat semua produk
+        </a>
+      </div>
+
+      <div class="products-grid">
+        {products.map((p) => (
+          <ProductCard product={p} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Galeri Section (6 Curated Photos) -->
+  <section class="section section-cream-100 gallery-preview-section">
+    <div class="container">
+      <div class="section-header-row">
+        <div>
+          <span class="eyebrow">Portofolio Pekerjaan</span>
+          <h2 class="section-title">Dokumentasi Hasil Produksi</h2>
+        </div>
+        <a href="/galeri/" class="text-link">
+          Lihat galeri lengkap
+        </a>
+      </div>
+
+      <div class="gallery-mini-grid">
+        {homeGallery.map((item) => (
+          <div class="gallery-mini-item">
+            <Image
+              src={item.image}
+              alt={item.alt}
+              width={600}
+              height={600}
+              class="gallery-mini-img"
+              loading="lazy"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Testimoni Section -->
+  <section class="section section-cream-50 testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Pengalaman Klien</span>
+        <h2 class="section-title">Dipercaya Berbagai Korporasi &amp; Instansi</h2>
+        <p class="section-lead">
+          Kutipan nyata dari panitia pengadaan dan divisi HR yang telah mempercayakan pengadaan souvenir kantor kepada Seminarkit.
+        </p>
+      </div>
+
+      <div class="testimonials-grid">
+        {testimonials.map((t) => (
+          <TestimonialCard testimonial={t} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. FAQ Section -->
+  <section class="section section-cream-100 faq-section">
+    <div class="container">
+      <div class="faq-container-grid">
+        <div class="faq-intro">
+          <span class="eyebrow">Pertanyaan Umum</span>
+          <h2 class="section-title">Informasi Seputar Pemesanan</h2>
+          <p class="section-desc">
+            Rangkuman jawaban cepat mengenai batas minimum order (MOQ), durasi pengerjaan, format logo, hingga skema pembayaran.
+          </p>
+          <div class="faq-cta-link">
+            <a href="/faq/" class="btn btn-secondary btn-sm">
+              Lihat semua pertanyaan
+            </a>
+          </div>
+        </div>
+
+        <div class="faq-list-wrap">
+          <FaqAccordion items={homeFaqs} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CTA Section -->
+  <CtaSection
+    title="Wujudkan Souvenir Kantor Eksklusif untuk Acara Anda"
+    description="Hubungi tim representatif Seminarkit via WhatsApp untuk mendapatkan estimasi biaya dan konsultasi gratis desain logo perusahaan Anda."
+    buttonText="Konsultasi via WhatsApp"
+    source="home-cta"
+  />
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .hero-section {
+    background-color: var(--cream-100);
+    padding-top: 64px;
+    padding-bottom: 96px;
+    border-bottom: 1px solid var(--cream-300);
+  }
+
+  .hero-container {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .hero-accent-line {
+    width: 48px;
+    height: 1px;
+    background-color: var(--brass);
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-size: 64px;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .hero-lead {
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 36px;
+    max-width: 54ch;
+  }
+
+  .hero-buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-image-frame {
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    max-width: 460px;
+    overflow: hidden;
+    background-color: var(--cream-50);
+    border: 1px solid var(--cream-300);
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* About Brief */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .about-visual {
+    border: 1px solid var(--cream-300);
+    overflow: hidden;
+  }
+
+  .about-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .about-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section-title {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .section-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+
+  .about-action {
+    margin-top: 16px;
+  }
+
+  /* Why Us (Numbered) */
+  .section-header {
+    text-align: left;
+    margin-bottom: 56px;
+  }
+
+  .section-lead {
+    font-size: 18px;
+    color: var(--ink-soft);
+    margin-top: 12px;
+    max-width: 60ch;
+  }
+
+  .why-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--cream-300);
+  }
+
+  .why-item {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--cream-300);
+    align-items: baseline;
+  }
+
+  .why-num {
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--brass);
+  }
+
+  .why-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .why-desc {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 64ch;
+  }
+
+  /* Section Header Row */
+  .section-header-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  /* Mini Gallery */
+  .gallery-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .gallery-mini-item {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border: 1px solid var(--cream-300);
+    background-color: var(--cream-50);
+  }
+
+  .gallery-mini-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Testimonials */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  /* FAQ */
+  .faq-container-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 64px;
+  }
+
+  .faq-intro {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .faq-cta-link {
+    margin-top: 24px;
+  }
+
+  @media (max-width: 1024px) {
+    .hero-container {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .hero-title {
+      font-size: 44px;
+    }
+
+    .hero-visual {
+      order: -1;
+    }
+
+    .hero-image-frame {
+      max-width: 380px;
+    }
+
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .products-grid,
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .gallery-mini-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .faq-container-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-title {
+      font-size: 38px;
+    }
+
+    .hero-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .why-item {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .section-header-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+  }
+</style>

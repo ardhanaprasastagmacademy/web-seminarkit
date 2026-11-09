@@ -1,0 +1,264 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
+import CtaSection from '../components/CtaSection.astro';
+import aboutImg from '../assets/about/workshop-seminarkit.webp';
+import { siteConfig } from '../data/site.js';
+
+const breadcrumbs = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Tentang' }
+];
+
+const pageTitle = 'Tentang Seminarkit — Vendor Souvenir dan Seminar Kit Perusahaan';
+const pageDesc = 'Kenali Seminarkit, vendor souvenir kantor dan seminar kit berbasis di Jakarta dengan jangkauan pengiriman seluruh Indonesia. Komitmen mutu, proses produksi, dan pengalaman kami.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} breadcrumbs={breadcrumbs}>
+  <PageBanner
+    title="Tentang Seminarkit"
+    description="Mitra pengadaan souvenir kantor dan seminar kit berstandar mutu korporat untuk beragam skala acara dan institusi."
+    breadcrumb={breadcrumbs}
+  />
+
+  <!-- Brand Story Section -->
+  <section class="section section-cream-100">
+    <div class="container">
+      <div class="about-story-grid">
+        <div class="story-text">
+          <span class="eyebrow">Cerita &amp; Identitas</span>
+          <h2 class="section-title">Membangun Kepercayaan Lewat Kualitas Pengerjaan</h2>
+          <div class="prose">
+            <p>
+              Seminarkit didirikan dengan keyakinan bahwa setiap merchandise korporat memegang peranan krusial sebagai cerminan reputasi suatu institusi. Di tengah maraknya souvenir promosi berkualitas rendah yang cepat rusak, kami mengambil pendekatan berbeda: mengutamakan fungsi nyata, material terpilih, dan estetika yang tenang dan bersahaja.
+            </p>
+            <p>
+              Beroperasi di Jakarta Selatan dengan fasilitas konveksi terpadu dan mesin finishing modern, kami melayani ratusan klien dari kalangan badan usaha milik negara (BUMN), kementerian pemerintahan, perusahaan swasta multinasional, universitas, hingga event organizer independen di seluruh pelosok Indonesia.
+            </p>
+            <p>
+              Bagi kami, ketepatan waktu pengiriman sama pentingnya dengan keindahan hasil cetak logo. Karena acara seminar tidak bisa ditunda, seluruh sistem produksi kami dirancang dengan jadwal ketat dan komunikasi berkala kepada setiap klien.
+            </p>
+          </div>
+        </div>
+
+        <div class="story-visual">
+          <div class="story-img-frame">
+            <Image
+              src={aboutImg}
+              alt="Fasilitas workshop dan produksi souvenir kantor Seminarkit"
+              width={800}
+              height={600}
+              class="story-img"
+              loading="lazy"
+            />
+          </div>
+          <div class="story-caption">
+            <p>Workshop &amp; Tim Produksi Seminarkit di {siteConfig.address.city}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision & Mission -->
+  <section class="section section-cream-50">
+    <div class="container">
+      <div class="vision-grid">
+        <div class="vision-card">
+          <span class="eyebrow">Arah Langkah</span>
+          <h3 class="vision-title">Visi Kami</h3>
+          <p class="vision-text">
+            Menjadi mitra utama pengadaan souvenir kantor dan seminar kit terdepan di Indonesia yang dikenal karena keandalan mutu produk, kepastian tenggat waktu, dan layanan beretika profesional.
+          </p>
+        </div>
+
+        <div class="vision-card">
+          <span class="eyebrow">Komitmen Kerja</span>
+          <h3 class="vision-title">Misi Kami</h3>
+          <ul class="vision-list">
+            <li>Menyediakan variasi merchandise fungsional dengan material berkualitas dan tahan lama.</li>
+            <li>Menerapkan kontrol kualitas bertahap dari pemotongan bahan, proses pencetakan logo, hingga pengemasan akhir.</li>
+            <li>Mempermudah alur pengadaan instansi melalui asistensi desain mockup, komunikasi cepat, dan kelengkapan administrasi resmi.</li>
+            <li>Menjangkau pengiriman yang aman dan terlindungi hingga ke seluruh wilayah nusantara.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values & Keunggulan -->
+  <section class="section section-cream-100">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Nilai Fundamental</span>
+        <h2 class="section-title">Prinsip Kerja Kami</h2>
+      </div>
+
+      <div class="values-list">
+        <div class="value-item">
+          <span class="value-num">01</span>
+          <div>
+            <h3 class="value-title">Tanpa Kompromi pada Material</h3>
+            <p class="value-desc">
+              Kami menolak penggunaan material murah yang mudah koyak atau berkarat. Setiap meter kain kanvas, lembaran kulit sintetis, dan baja tumbler diperiksa secara cermat.
+            </p>
+          </div>
+        </div>
+
+        <div class="value-item">
+          <span class="value-num">02</span>
+          <div>
+            <h3 class="value-title">Konsultasi Desain yang Teliti</h3>
+            <p class="value-desc">
+              Sebelum naik cetak massal, rancangan visual (mockup) diperiksa proporsinya dan dikonfirmasi kepada Anda untuk mencegah kesalahan letak atau ukuran logo.
+            </p>
+          </div>
+        </div>
+
+        <div class="value-item">
+          <span class="value-num">03</span>
+          <div>
+            <h3 class="value-title">Transparansi dan Legalitas</h3>
+            <p class="value-desc">
+              Kami siap melayani kebutuhan surat penawaran, invoice resmi bermaterai, kuitansi, dan faktur pajak untuk menjamin kelancaran audit pengadaan instansi Anda.
+            </p>
+          </div>
+        </div>
+
+        <div class="value-item">
+          <span class="value-num">04</span>
+          <div>
+            <h3 class="value-title">Jaminan Garansi Produk</h3>
+            <p class="value-desc">
+              Apabila terdapat produk cacat atau ketidaksesuaian dengan lembar persetujuan sampel, kami bertanggung jawab penuh untuk mengganti atau memperbaikinya.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <CtaSection
+    title="Diskusikan Kebutuhan Souvenir Kantor Anda"
+    description="Tim kami siap membantu menyusun penawaran terbaik dan memberikan rekomendasi produk sesuai anggaran kepanitiaan Anda."
+    buttonText="Hubungi Tim Kami via WA"
+    source="tentang-cta"
+  />
+</BaseLayout>
+
+<style>
+  .about-story-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 64px;
+    align-items: flex-start;
+  }
+
+  .story-img-frame {
+    border: 1px solid var(--cream-300);
+    overflow: hidden;
+    background-color: var(--cream-50);
+  }
+
+  .story-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .story-caption {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .vision-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .vision-card {
+    background-color: var(--cream-100);
+    border: 1px solid var(--cream-300);
+    border-radius: var(--radius);
+    padding: 40px;
+  }
+
+  .vision-title {
+    font-size: 28px;
+    margin-bottom: 16px;
+    color: var(--navy-700);
+  }
+
+  .vision-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  .vision-list {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .values-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--cream-300);
+  }
+
+  .value-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--cream-300);
+    align-items: baseline;
+  }
+
+  .value-num {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 600;
+    color: var(--brass);
+  }
+
+  .value-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .value-desc {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 64ch;
+  }
+
+  @media (max-width: 900px) {
+    .about-story-grid,
+    .vision-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .value-item {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+</style>
+

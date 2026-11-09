@@ -1,0 +1,313 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
+import { siteConfig } from '../data/site.js';
+import { products } from '../data/products.js';
+
+const breadcrumbs = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Kontak' }
+];
+
+const pageTitle = 'Kontak dan Pemesanan — Seminarkit';
+const pageDesc = 'Hubungi Seminarkit via WhatsApp 0822-3273-0246 atau isi form pemesanan souvenir kantor dan seminar kit custom untuk perusahaan Anda.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} breadcrumbs={breadcrumbs}>
+  <PageBanner
+    title="Kontak & Form Pemesanan"
+    description="Silakan isi formulir pemesanan di bawah ini atau hubungi tim customer relation kami secara langsung melalui WhatsApp."
+    breadcrumb={breadcrumbs}
+  />
+
+  <section class="section section-cream-100 contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Contact Information (Left) -->
+        <div class="contact-info-col">
+          <span class="eyebrow">Saluran Komunikasi</span>
+          <h2 class="contact-heading">Hubungi Tim Kami</h2>
+          <p class="contact-desc">
+            Kami siap melayani kebutuhan konsultasi cinderamata korporat, asistensi format logo, hingga penerbitan surat penawaran resmi untuk institusi Anda.
+          </p>
+
+          <div class="info-blocks">
+            <div class="info-block">
+              <h3 class="info-label">WhatsApp Customer Service</h3>
+              <p class="info-val">
+                <a
+                  href={siteConfig.waUrl}
+                  class="contact-link"
+                  data-wa-source="kontak-direct"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {siteConfig.waDisplay}
+                </a>
+              </p>
+              <span class="info-sub">Respon cepat selama jam operasional kerja</span>
+            </div>
+
+            <div class="info-block">
+              <h3 class="info-label">Email Korespondensi</h3>
+              <p class="info-val">
+                <a href={`mailto:${siteConfig.email}`} class="contact-link">
+                  {siteConfig.email}
+                </a>
+              </p>
+              <span class="info-sub">Untuk proposal kerja sama dan tender formal</span>
+            </div>
+
+            <div class="info-block">
+              <h3 class="info-label">Workshop &amp; Kantor Representatif</h3>
+              <p class="info-val">{siteConfig.address.full}</p>
+            </div>
+
+            <div class="info-block">
+              <h3 class="info-label">Jam Kerja Operasional</h3>
+              <p class="info-val">{siteConfig.operatingHours}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Form (Right) -->
+        <div class="contact-form-col">
+          <div class="form-card">
+            <h2 class="form-title">Formulir Pemesanan &amp; Penawaran</h2>
+            <p class="form-subtitle">
+              Isi rincian di bawah ini. Saat tombol dikirim, formulir akan otomatis menyusun pesan dan membuka WhatsApp ke representatif kami.
+            </p>
+
+            <form id="order-form" class="order-form" novalidate>
+              <div class="form-group">
+                <label for="form-name" class="form-label">
+                  Nama Lengkap Pemesan <span class="required" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="form-name"
+                  name="name"
+                  class="form-input"
+                  placeholder="Contoh: Rian Anggoro"
+                  required
+                />
+                <span class="form-error" id="form-name-error"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="form-company" class="form-label">
+                  Nama Perusahaan / Instansi
+                </label>
+                <input
+                  type="text"
+                  id="form-company"
+                  name="company"
+                  class="form-input"
+                  placeholder="Contoh: PT Sumber Daya Mandiri"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="form-product" class="form-label">
+                  Pilihan Produk <span class="required" aria-hidden="true">*</span>
+                </label>
+                <select id="form-product" name="product" class="form-select" required>
+                  <option value="" disabled selected>Pilih salah satu produk</option>
+                  {products.map((p) => (
+                    <option value={p.name}>{p.name} ({p.price})</option>
+                  ))}
+                  <option value="Paket Custom Lainnya">Paket Custom Lainnya / Campuran</option>
+                </select>
+                <span class="form-error" id="form-product-error"></span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="form-qty" class="form-label">
+                    Jumlah Pesanan (Unit/Pcs) <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="form-qty"
+                    name="quantity"
+                    class="form-input"
+                    placeholder="Contoh: 100"
+                    min="1"
+                    required
+                  />
+                  <span class="form-error" id="form-qty-error"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="form-date" class="form-label">
+                    Dibutuhkan Tanggal
+                  </label>
+                  <input
+                    type="date"
+                    id="form-date"
+                    name="needed_date"
+                    class="form-input"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="form-notes" class="form-label">
+                  Catatan Kebutuhan Desain / Logo / Pengiriman
+                </label>
+                <textarea
+                  id="form-notes"
+                  name="notes"
+                  class="form-textarea"
+                  placeholder="Tuliskan jika ada kebutuhan grafir logo, warna khusus, atau alamat pengiriman kota tujuan..."
+                ></textarea>
+              </div>
+
+              <div class="form-action">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-submit-wa"
+                  data-wa-source="form-kontak"
+                >
+                  Kirim Pesan via WhatsApp
+                </button>
+              </div>
+
+              <p class="form-privacy-note">
+                Data yang Anda masukkan hanya digunakan untuk keperluan kalkulasi penawaran dan komunikasi pemesanan. Baca <a href="/kebijakan-privasi/" class="text-link">Kebijakan Privasi</a> kami.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 64px;
+    align-items: flex-start;
+  }
+
+  .contact-heading {
+    font-size: 38px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: var(--navy-700);
+  }
+
+  .contact-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: 36px;
+  }
+
+  .info-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    border-top: 1px solid var(--cream-300);
+    padding-top: 28px;
+  }
+
+  .info-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--brass);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    font-family: var(--font-body);
+  }
+
+  .info-val {
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .info-sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+    display: block;
+    margin-top: 4px;
+  }
+
+  .contact-link {
+    color: var(--navy-700);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: 500;
+  }
+
+  .contact-link:hover {
+    color: var(--navy-500);
+  }
+
+  /* Form Card */
+  .form-card {
+    background-color: var(--cream-50);
+    border: 1px solid var(--cream-300);
+    border-radius: var(--radius);
+    padding: 44px;
+  }
+
+  .form-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--navy-700);
+    margin-bottom: 10px;
+  }
+
+  .form-subtitle {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .btn-submit-wa {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+  }
+
+  .form-privacy-note {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .form-card {
+      padding: 28px 20px;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+</style>
+
+<script>
+  import { initWaForm } from '../scripts/wa-form.js';
+  initWaForm();
+</script>

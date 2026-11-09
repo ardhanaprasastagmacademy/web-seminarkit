@@ -1,0 +1,224 @@
+---
+import { siteConfig } from '../data/site.js';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article' | 'product';
+  article?: {
+    datePublished: string | Date;
+    dateModified?: string | Date;
+    author: string;
+  };
+  product?: {
+    name: string;
+    description: string;
+    image: string;
+    price?: number;
+    currency?: string;
+  };
+  breadcrumbs?: Array<{ label: string; href?: string }>;
+  faqs?: Array<{ question: string; shortAnswer: string; fullAnswer?: string }>;
+  noindex?: boolean;
+}
+
+const {
+  title = `${siteConfig.name} — ${siteConfig.tagline}`,
+  description = siteConfig.description,
+  canonicalUrl = Astro.url.href,
+  ogImage = '/og-default.jpg',
+  ogType = 'website',
+  article,
+  product,
+  breadcrumbs,
+  faqs,
+  noindex = false,
+} = Astro.props;
+
+// Ensure trailing slash for canonical
+const cleanCanonical = canonicalUrl.endsWith('/') ? canonicalUrl : `${canonicalUrl}/`;
+const fullOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, siteConfig.url).href;
+
+// 1. Organization Schema
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteConfig.name,
+  legalName: siteConfig.legalName,
+  url: siteConfig.url,
+  logo: `${siteConfig.url}/favicon.svg`,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: siteConfig.phone,
+    contactType: 'customer service',
+    availableLanguage: 'Indonesian',
+    areaServed: 'ID'
+  },
+  sameAs: [
+    siteConfig.socialLinks.instagram,
+    siteConfig.socialLinks.linkedin,
+    siteConfig.socialLinks.facebook
+  ]
+};
+
+// 2. WebSite Schema
+const webSiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteConfig.name,
+  url: siteConfig.url,
+  inLanguage: 'id-ID'
+};
+
+// 3. BreadcrumbList Schema
+let breadcrumbSchema = null;
+if (breadcrumbs && breadcrumbs.length > 0) {
+  breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.label,
+      item: item.href ? new URL(item.href, siteConfig.url).href : cleanCanonical
+    }))
+  };
+}
+
+// 4. Product Schema
+let productSchema = null;
+if (product) {
+  productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    image: product.image.startsWith('http') ? product.image : new URL(product.image, siteConfig.url).href,
+    brand: {
+      '@type': 'Brand',
+      name: siteConfig.name
+    },
+    ...(product.price ? {
+      offers: {
+        '@type': 'Offer',
+        price: product.price,
+        priceCurrency: product.currency || 'IDR',
+        availability: 'https://schema.org/InStock',
+        url: cleanCanonical,
+        seller: {
+          '@type': 'Organization',
+          name: siteConfig.name
+        }
+      }
+    } : {})
+  };
+}
+
+// 5. Article Schema
+let articleSchema = null;
+if (article) {
+  articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description: description,
+    image: fullOgImage,
+    datePublished: new Date(article.datePublished).toISOString(),
+    dateModified: article.dateModified ? new Date(article.dateModified).toISOString() : new Date(article.datePublished).toISOString(),
+    author: {
+      '@type': 'Person',
+      name: article.author
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: siteConfig.name,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteConfig.url}/favicon.svg`
+      }
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': cleanCanonical
+    }
+  };
+}
+
+// 6. FAQPage Schema
+let faqSchema = null;
+if (faqs && faqs.length > 0) {
+  faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.fullAnswer ? `${faq.shortAnswer} ${faq.fullAnswer}` : faq.shortAnswer
+      }
+    }))
+  };
+}
+
+// 7. LocalBusiness Schema (Kontak & Tentang)
+let localBusinessSchema = null;
+if (Astro.url.pathname === '/kontak/' || Astro.url.pathname === '/tentang/') {
+  localBusinessSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: siteConfig.name,
+    image: fullOgImage,
+    telephone: siteConfig.phone,
+    email: siteConfig.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: siteConfig.address.street,
+      addressLocality: siteConfig.address.city,
+      addressRegion: siteConfig.address.region,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.country
+    },
+    openingHours: 'Mo,Tu,We,Th,Fr 08:30-17:30 Sa 09:00-14:00',
+    url: siteConfig.url,
+    priceRange: '$$'
+  };
+}
+---
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<link rel="canonical" href={cleanCanonical} />
+
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+{!noindex && <meta name="robots" content="index, follow" />}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={cleanCanonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={fullOgImage} />
+<meta property="og:site_name" content={siteConfig.name} />
+<meta property="og:locale" content="id_ID" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={cleanCanonical} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={fullOgImage} />
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(webSiteSchema)} />
+{breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
+{productSchema && <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />}
+{articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
+{faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+{localBusinessSchema && <script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />}
+

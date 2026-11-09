@@ -1,0 +1,63 @@
+---
+import SeoHead from '../components/SeoHead.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import WhatsappFloat from '../components/WhatsappFloat.astro';
+
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/components.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article' | 'product';
+  article?: {
+    datePublished: string | Date;
+    dateModified?: string | Date;
+    author: string;
+  };
+  product?: {
+    name: string;
+    description: string;
+    image: string;
+    price?: number;
+    currency?: string;
+  };
+  breadcrumbs?: Array<{ label: string; href?: string }>;
+  faqs?: Array<{ question: string; shortAnswer: string; fullAnswer?: string }>;
+  noindex?: boolean;
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Google Fonts Preconnect and Self-Optimized Swap Loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Hanken+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <SeoHead {...props} />
+  </head>
+  <body>
+    <Navbar />
+    <main id="main-content">
+      <slot />
+    </main>
+    <WhatsappFloat />
+    <Footer />
+  </body>
+</html>
+

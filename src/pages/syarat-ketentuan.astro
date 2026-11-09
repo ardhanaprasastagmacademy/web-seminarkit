@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
+import { siteConfig } from '../data/site.js';
+
+const breadcrumbs = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Syarat & Ketentuan' }
+];
+
+const pageTitle = 'Syarat dan Ketentuan — Seminarkit';
+const pageDesc = 'Ketentuan pemesanan, persetujuan mockup desain, skema pembayaran, estimasi produksi, dan garansi pengiriman di Seminarkit.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} breadcrumbs={breadcrumbs}>
+  <PageBanner
+    title="Syarat dan Ketentuan"
+    description="Panduan dan ketentuan kerja sama pemesanan souvenir kantor dan seminar kit di Seminarkit."
+    breadcrumb={breadcrumbs}
+  />
+
+  <section class="section section-cream-100">
+    <div class="container">
+      <div class="legal-wrap prose">
+        <p class="legal-update">Terakhir diperbarui: 9 November 2026</p>
+
+        <p>
+          Syarat dan Ketentuan ini memuat pedoman kerja sama antara {siteConfig.name} ("Kami") dan pemesan institusi atau perorangan ("Klien") dalam pengadaan souvenir kantor, paket seminar kit, dan merchandise perusahaan.
+        </p>
+
+        <h2>1. Pemesanan dan Jumlah Minimal (MOQ)</h2>
+        <ul>
+          <li>Pemesanan dianggap resmi setelah penerbitan surat penawaran / invoice resmi yang disetujui bersama dan konfirmasi pembayaran uang muka (DP).</li>
+          <li>Setiap produk memiliki batas minimum order (MOQ) sebagaimana tertera pada rincian katalog produk (misalnya 50 paket untuk Seminar Kit Eksekutif dan 100 pcs untuk Tote Bag Kanvas).</li>
+        </ul>
+
+        <h2>2. Persetujuan Desain dan Mockup (Proofing)</h2>
+        <ul>
+          <li>Klien berkewajiban menyediakan file logo perusahaan dalam resolusi tinggi atau format vektor (PDF, AI, EPS, CorelDraw).</li>
+          <li>Kami akan menerbitkan lembar persetujuan sampel visual (mockup 2D digital) yang menunjukkan letak, ukuran, dan simulasi warna logo pada produk.</li>
+          <li>Setelah lembar mockup ditandatangani atau disetujui secara tertulis via WhatsApp/email oleh Klien, proses cetak massal akan dijalankan sesuai spesifikasi tersebut. Perubahan desain setelah proses cetak berjalan tidak dapat dilakukan tanpa penyesuaian biaya tambahan.</li>
+        </ul>
+
+        <h2>3. Durasi dan Jadwal Produksi</h2>
+        <ul>
+          <li>Estimasi waktu produksi standar adalah 5 hingga 10 hari kerja terhitung sejak lembar mockup disetujui dan pembayaran DP terkonfirmasi.</li>
+          <li>Tanggal penyelesaian dan pengiriman barang disepakati di awal agar tiba sebelum hari pelaksanaan acara Klien.</li>
+        </ul>
+
+        <h2>4. Skema Pembayaran</h2>
+        <ul>
+          <li>Pembayaran dilakukan melalui transfer ke rekening bank resmi atas nama perusahaan kami.</li>
+          <li>Uang Muka (Down Payment) sebesar 50% dari total nilai pesanan dibayarkan saat konfirmasi pemesanan.</li>
+          <li>Pelunasan sisa 50% dibayarkan sebelum barang diberangkatkan dari workshop kami atau saat serah terima barang (sesuai kesepakatan tertulis).</li>
+          <li>Untuk instansi BUMN atau kementerian dengan skema Term of Payment (TOP) berlandaskan SPK resmi, ketentuan pembayaran dapat diselaraskan berdasarkan kesepakatan kontraktual.</li>
+        </ul>
+
+        <h2>5. Ekspedisi dan Pengiriman</h2>
+        <ul>
+          <li>Pengiriman ke luar kota memanfaatkan mitra ekspedisi kargo resmi berfasilitas nomor resi pelacakan.</li>
+          <li>Barang dikemas menggunakan kardus tebal dan opsi packing kayu untuk pengiriman jarak jauh antarpulau.</li>
+        </ul>
+
+        <h2>6. Garansi dan Penggantian Barang Cacat</h2>
+        <ul>
+          <li>Kami menjamin kualitas produk sesuai dengan lembar persetujuan mockup resmi.</li>
+          <li>Apabila terdapat produk yang mengalami cacat produksi, salah cetak logo, atau kerusakan material, Klien berhak mengajukan klaim penggantian atau perbaikan.</li>
+          <li>Klaim garansi wajib diajukan dalam kurun waktu 3 hari kalender sejak pesanan diterima oleh Klien dengan melampirkan bukti dokumentasi foto atau video unboxing.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .legal-update {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+</style>
+

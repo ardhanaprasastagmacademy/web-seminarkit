@@ -1,0 +1,134 @@
+---
+interface FaqItem {
+  question: string;
+  shortAnswer: string;
+  fullAnswer?: string;
+}
+
+interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq-accordion">
+  {items.map((item, idx) => (
+    <details class="faq-item" id={`faq-${idx}`}>
+      <summary class="faq-summary">
+        <span class="faq-question">{item.question}</span>
+        <span class="faq-icon" aria-hidden="true">
+          <span class="line-h"></span>
+          <span class="line-v"></span>
+        </span>
+      </summary>
+      <div class="faq-answer">
+        <p class="faq-short">{item.shortAnswer}</p>
+        {item.fullAnswer && <p class="faq-full">{item.fullAnswer}</p>}
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .faq-accordion {
+    border-top: 1px solid var(--cream-300);
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--cream-300);
+    transition: background-color 150ms var(--ease);
+  }
+
+  .faq-summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    user-select: none;
+  }
+
+  /* Remove default browser marker */
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+    transition: color 150ms var(--ease);
+  }
+
+  .faq-summary:hover .faq-question {
+    color: var(--navy-700);
+  }
+
+  /* CSS Plus that turns into Minus (NO chevron/arrows) */
+  .faq-icon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .line-h,
+  .line-v {
+    position: absolute;
+    background-color: var(--navy-700);
+    transition: transform 200ms var(--ease), opacity 200ms var(--ease);
+  }
+
+  .line-h {
+    width: 16px;
+    height: 1.5px;
+  }
+
+  .line-v {
+    width: 1.5px;
+    height: 16px;
+  }
+
+  /* When open, vertical line rotates or disappears to become a minus */
+  details[open] .line-v {
+    transform: rotate(90deg);
+    opacity: 0;
+  }
+
+  .faq-answer {
+    padding-bottom: 28px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    max-width: 72ch;
+  }
+
+  .faq-short {
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+
+  .faq-full {
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .faq-question {
+      font-size: 19px;
+    }
+
+    .faq-summary {
+      padding: 20px 0;
+    }
+  }
+</style>
+

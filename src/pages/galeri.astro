@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
+import Lightbox from '../components/Lightbox.astro';
+import CtaSection from '../components/CtaSection.astro';
+import { galleryItems } from '../data/gallery.js';
+
+const breadcrumbs = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Galeri' }
+];
+
+const pageTitle = 'Galeri Souvenir dan Seminar Kit — Seminarkit';
+const pageDesc = 'Dokumentasi portofolio hasil produksi souvenir kantor, seminar kit kementerian, tote bag kanvas, dan merchandise perusahaan Seminarkit.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} breadcrumbs={breadcrumbs}>
+  <PageBanner
+    title="Galeri Portofolio"
+    description="Dokumentasi visual hasil pengerjaan pesanan seminar kit, cinderamata kantor, dan paket merchandise korporat."
+    breadcrumb={breadcrumbs}
+  />
+
+  <section class="section section-cream-100 gallery-section">
+    <div class="container">
+      <div class="gallery-grid">
+        {galleryItems.map((item) => (
+          <a
+            href={item.image.src}
+            class="gallery-item-link"
+            data-lightbox-trigger
+            data-full-src={item.image.src}
+            data-alt={item.alt}
+            aria-label={`Lihat foto ${item.category}: ${item.alt}`}
+          >
+            <div class="gallery-img-box">
+              <Image
+                src={item.image}
+                alt={item.alt}
+                width={600}
+                height={600}
+                class="gallery-thumbnail"
+                loading="lazy"
+              />
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox Modal Component -->
+  <Lightbox />
+
+  <!-- CTA -->
+  <CtaSection
+    title="Tertarik dengan Salah Satu Hasil Produksi Kami?"
+    description="Kirimkan referensi foto di atas melalui WhatsApp untuk menanyakan estimasi biaya dan waktu pengerjaan untuk perusahaan Anda."
+    buttonText="Konsultasi via WhatsApp"
+    source="galeri-cta"
+  />
+</BaseLayout>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .gallery-item-link {
+    display: block;
+    cursor: zoom-in;
+    text-decoration: none;
+    border: 1px solid var(--cream-300);
+    overflow: hidden;
+    background-color: var(--cream-50);
+    transition: opacity 200ms var(--ease);
+  }
+
+  .gallery-item-link:hover {
+    opacity: 0.9;
+  }
+
+  .gallery-img-box {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+
+  .gallery-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 900px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+  }
+</style>
+
+<script>
+  import { initLightbox } from '../scripts/lightbox.js';
+  initLightbox();
+</script>
+

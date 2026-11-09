@@ -1,0 +1,337 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageBanner from '../../components/PageBanner.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import CtaSection from '../../components/CtaSection.astro';
+import { products } from '../../data/products.js';
+import { waLink } from '../../utils/wa.js';
+
+export async function getStaticPaths() {
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product }
+  }));
+}
+
+const { product } = Astro.props;
+
+// Related products (the other 2 products)
+const relatedProducts = products.filter((p) => p.slug !== product.slug);
+
+const breadcrumbs = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Produk', href: '/produk/' },
+  { label: product.name }
+];
+
+const waMessage = `Halo Seminarkit, saya tertarik memesan "${product.name}". Mohon informasi katalog, simulasi penawaran harga, dan prosedur pengajuannya.`;
+const waUrl = waLink(waMessage, 'produk-detail');
+---
+
+<BaseLayout
+  title={product.metaTitle}
+  description={product.metaDescription}
+  breadcrumbs={breadcrumbs}
+  product={{
+    name: product.name,
+    description: product.shortDescription,
+    image: product.images.main.src,
+    price: product.rawPrice,
+    currency: 'IDR'
+  }}
+>
+  <PageBanner
+    title={product.name}
+    breadcrumb={breadcrumbs}
+  />
+
+  <!-- Product Detail Section -->
+  <section class="section section-cream-100 product-detail-section">
+    <div class="container">
+      <div class="product-detail-grid">
+        <!-- Left: Image Gallery (1 Main + 3 Thumbnails) -->
+        <div class="gallery-column">
+          <div class="main-image-frame">
+            <Image
+              src={product.images.main}
+              alt={`Foto utama ${product.name}`}
+              width={800}
+              height={1000}
+              class="main-img"
+              id="product-main-image"
+              loading="eager"
+            />
+          </div>
+
+          <div class="thumbnail-row">
+            <button
+              type="button"
+              class="product-thumb-btn is-active"
+              data-full-src={product.images.main.src}
+              data-alt={`Foto utama ${product.name}`}
+              aria-label="Tampilkan foto utama"
+            >
+              <Image
+                src={product.images.main}
+                alt={`Thumbnail foto utama ${product.name}`}
+                width={200}
+                height={200}
+                class="thumb-img"
+                loading="lazy"
+              />
+            </button>
+
+            {product.images.support.map((thumb, idx) => (
+              <button
+                type="button"
+                class="product-thumb-btn"
+                data-full-src={thumb.src}
+                data-alt={`Detail komponen ${idx + 1} ${product.name}`}
+                aria-label={`Tampilkan foto detail ${idx + 1}`}
+              >
+                <Image
+                  src={thumb}
+                  alt={`Thumbnail detail ${idx + 1} ${product.name}`}
+                  width={200}
+                  height={200}
+                  class="thumb-img"
+                  loading="lazy"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Right: Specs & Actions -->
+        <div class="info-column">
+          <span class="eyebrow">Spesifikasi Lengkap</span>
+          <h2 class="detail-product-title">{product.name}</h2>
+
+          <div class="detail-price-box">
+            <span class="detail-price-val">{product.price}</span>
+            {product.priceUnit && <span class="detail-price-unit">/{product.priceUnit.replace(/^per\s+/i, '')}</span>}
+          </div>
+
+          <div class="detail-description">
+            <p>{product.description}</p>
+          </div>
+
+          <!-- Specs Table -->
+          <div class="specs-wrap">
+            <h3 class="specs-heading">Rincian Teknis &amp; Komponen</h3>
+            <table class="spec-table" aria-label={`Spesifikasi teknis ${product.name}`}>
+              <tbody>
+                {product.specs.map((s) => (
+                  <tr>
+                    <th scope="row">{s.label}</th>
+                    <td>{s.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Direct Order Action -->
+          <div class="detail-cta-wrap">
+            <a
+              href={waUrl}
+              class="btn btn-primary btn-order-wa"
+              data-wa-source="produk-detail"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Pesan ${product.name} via WhatsApp`}
+            >
+              Pesan via WhatsApp
+            </a>
+            <p class="order-guarantee-note">
+              Gratis pembuatan mockup digital 2D sebelum konfirmasi produksi massal.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Products (The other 2 products) -->
+  <section class="section section-cream-50 related-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="eyebrow">Pilihan Lain</span>
+        <h2 class="section-title">Produk Terkait</h2>
+      </div>
+
+      <div class="related-grid">
+        {relatedProducts.map((p) => (
+          <ProductCard product={p} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <CtaSection
+    title="Punya Kebutuhan Spesifikasi Khusus?"
+    description="Kami melayani modifikasi isi paket seminar kit, kombinasi warna bahan, serta penyesuaian kemasan sesuai panduan brand identitas institusi Anda."
+    buttonText="Konsultasi via WhatsApp"
+    source="produk-detail-bottom-cta"
+  />
+</BaseLayout>
+
+<style>
+  .product-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: flex-start;
+  }
+
+  /* Gallery Left */
+  .gallery-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+  }
+
+  .main-image-frame {
+    aspect-ratio: 4 / 5;
+    background-color: var(--cream-50);
+    border: 1px solid var(--cream-300);
+    overflow: hidden;
+  }
+
+  .main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .thumbnail-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .product-thumb-btn {
+    aspect-ratio: 1 / 1;
+    background: transparent;
+    border: 1px solid var(--cream-300);
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 150ms var(--ease);
+  }
+
+  .product-thumb-btn.is-active {
+    border: 2px solid var(--navy-700);
+  }
+
+  .thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Info Right */
+  .detail-product-title {
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .detail-price-box {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--cream-300);
+  }
+
+  .detail-price-val {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--navy-700);
+  }
+
+  .detail-price-unit {
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+
+  .detail-description {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+
+  .specs-wrap {
+    margin-bottom: 36px;
+  }
+
+  .specs-heading {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy-700);
+    margin-bottom: 12px;
+  }
+
+  .detail-cta-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 16px;
+  }
+
+  .btn-order-wa {
+    padding: 18px 36px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .order-guarantee-note {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  /* Related Products */
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    max-width: 800px;
+  }
+
+  @media (max-width: 900px) {
+    .product-detail-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .gallery-column {
+      position: static;
+    }
+
+    .detail-product-title {
+      font-size: 30px;
+    }
+
+    .related-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+</style>
+
+<script>
+  import { initProductGallery } from '../../scripts/product-gallery.js';
+  initProductGallery();
+</script>
+

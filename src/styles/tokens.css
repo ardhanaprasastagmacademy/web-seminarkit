@@ -1,0 +1,23 @@
+:root {
+  --navy-900: #07142F;
+  --navy-700: #0B1F4D;
+  --navy-500: #26407A;
+  --cream-100: #FFF8DC;
+  --cream-50: #FFFCEB;
+  --cream-300: #EFE3B8;
+  --ink: #121A2E;
+  --ink-soft: #4A5570;
+  --brass: #A8864A;
+  --error: #9B2C2C;
+
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-body: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+
+  --radius: 2px;
+  --line: 1px solid var(--cream-300);
+  --line-navy: 1px solid rgba(255, 248, 220, 0.14);
+  --container: 1200px;
+  --header-h: 76px;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}
+

@@ -1,0 +1,90 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
+import { siteConfig } from '../data/site.js';
+
+const breadcrumbs = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Kebijakan Privasi' }
+];
+
+const pageTitle = 'Kebijakan Privasi — Seminarkit';
+const pageDesc = 'Kebijakan privasi Seminarkit mengenai perlakuan data informasi pemesanan, komunikasi WhatsApp, dan analitik situs web.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} breadcrumbs={breadcrumbs}>
+  <PageBanner
+    title="Kebijakan Privasi"
+    description="Komitmen Seminarkit dalam menjaga kerahasiaan data calon pemesan dan transparansi penggunaan layanan situs web."
+    breadcrumb={breadcrumbs}
+  />
+
+  <section class="section section-cream-100">
+    <div class="container">
+      <div class="legal-wrap prose">
+        <p class="legal-update">Terakhir diperbarui: 9 November 2026</p>
+
+        <p>
+          Selamat datang di situs web {siteConfig.name} ({siteConfig.url}). Kami sangat menghargai privasi dan kepercayaan pengunjung maupun calon pemesan korporat kami. Dokumen Kebijakan Privasi ini menerangkan bagaimana kami mengumpulkan, memperlakukan, dan melindungi data atau informasi yang Anda sampaikan kepada kami.
+        </p>
+
+        <h2>1. Informasi yang Kami Kumpulkan</h2>
+        <p>
+          Kami mengumpulkan data yang Anda masukkan secara sukarela melalui formulir kontak dan pemesanan pada situs ini, meliputi:
+        </p>
+        <ul>
+          <li>Nama lengkap pemesan atau perwakilan institusi.</li>
+          <li>Nama instansi, perusahaan, lembaga, atau organisasi.</li>
+          <li>Jenis produk souvenir atau seminar kit yang dipilih.</li>
+          <li>Estimasi jumlah pesanan dan tenggat waktu acara.</li>
+          <li>Catatan teknis khusus terkait logo dan pengiriman.</li>
+        </ul>
+
+        <h2>2. Tujuan Penggunaan Informasi</h2>
+        <p>
+          Seluruh data yang Anda berikan secara eksklusif digunakan untuk:
+        </p>
+        <ul>
+          <li>Menyusun rancangan penawaran harga (quotation) dan invoice resmi.</li>
+          <li>Menghubungi Anda melalui aplikasi percakapan resmi (WhatsApp) guna mengonfirmasi ketersediaan bahan dan pembuatan mockup desain.</li>
+          <li>Mengkoordinasikan proses ekspedisi pengiriman paket souvenir ke alamat tujuan Anda.</li>
+        </ul>
+
+        <h2>3. Komunikasi Melalui WhatsApp</h2>
+        <p>
+          Situs web kami memanfaatkan tautan terenkripsi langsung ke nomor WhatsApp resmi kami di {siteConfig.waDisplay}. Pesan yang disusun dari formulir pemesanan akan dialihkan ke aplikasi WhatsApp di perangkat Anda untuk disetujui dan dikirimkan oleh Anda sendiri. Kami tidak menyimpan database kredensial percakapan di server web pihak ketiga.
+        </p>
+
+        <h2>4. Penggunaan Analitik Situs Web</h2>
+        <p>
+          Untuk memantau performa teknis situs dan kenyamanan navigasi pengunjung, situs web ini dapat menggunakan cookie analitik anonim (seperti Google Analytics). Data ini bersifat agregat (misalnya halaman yang paling sering dibuka, waktu muat halaman, dan klik tautan konversi WhatsApp) dan tidak dapat digunakan untuk mengidentifikasi identitas pribadi Anda secara langsung.
+        </p>
+
+        <h2>5. Perlindungan dan Kerahasiaan Data</h2>
+        <p>
+          {siteConfig.name} tidak akan pernah menjual, menyewakan, meminjamkan, atau memperdagangkan data kontak dan informasi perusahaan Anda kepada pihak ketiga mana pun untuk tujuan periklanan atau spam.
+        </p>
+
+        <h2>6. Hubungi Kami</h2>
+        <p>
+          Bila Anda memiliki pertanyaan atau ingin mengajukan pembaruan maupun penghapusan data kontak institusi Anda dari catatan arsip kami, silakan hubungi tim kami melalui email <strong>{siteConfig.email}</strong> atau WhatsApp ke nomor <strong>{siteConfig.waDisplay}</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .legal-update {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+</style>
+

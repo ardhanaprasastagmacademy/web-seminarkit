@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageBanner from '../components/PageBanner.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+import CtaSection from '../components/CtaSection.astro';
+import { faqs } from '../data/faq.js';
+
+const breadcrumbs = [
+  { label: 'Beranda', href: '/' },
+  { label: 'FAQ' }
+];
+
+const pageTitle = 'Tanya Jawab (FAQ) — Pemesanan Souvenir Kantor & Seminar Kit';
+const pageDesc = 'Pertanyaan yang sering diajukan seputar pemesanan souvenir kantor dan seminar kit di Seminarkit: minimal order, waktu pengerjaan, format logo, garansi, dan pengiriman.';
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} breadcrumbs={breadcrumbs} faqs={faqs}>
+  <PageBanner
+    title="Tanya Jawab (FAQ)"
+    description="Jawaban lengkap seputar alur pemesanan, minimal order, waktu pengerjaan, spesifikasi desain logo, hingga mekanisme pengiriman."
+    breadcrumb={breadcrumbs}
+  />
+
+  <section class="section section-cream-100">
+    <div class="container">
+      <div class="faq-page-wrap">
+        <div class="faq-page-header">
+          <span class="eyebrow">Panduan Pembeli Korporat</span>
+          <h2 class="faq-page-title">Pertanyaan yang Sering Diajukan</h2>
+          <p class="faq-page-desc">
+            Berikut adalah kompilasi jawaban faktual untuk membantu panitia acara dan bagian pengadaan (procurement) dalam merencanakan pemesanan cinderamata instansi secara terstruktur.
+          </p>
+        </div>
+
+        <div class="faq-accordion-box">
+          <FaqAccordion items={faqs} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <CtaSection
+    title="Punya Pertanyaan Lain yang Belum Terjawab?"
+    description="Tim kami siap membantu menjawab pertanyaan teknis Anda seputar bahan, perizinan administrasi, dan simulasi jadwal acara via WhatsApp."
+    buttonText="Tanyakan Langsung via WA"
+    source="faq-cta"
+  />
+</BaseLayout>
+
+<style>
+  .faq-page-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .faq-page-header {
+    margin-bottom: 48px;
+    text-align: left;
+  }
+
+  .faq-page-title {
+    font-size: 38px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: var(--navy-700);
+  }
+
+  .faq-page-desc {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+
+  .faq-accordion-box {
+    background-color: var(--cream-50);
+    border: 1px solid var(--cream-300);
+    border-radius: var(--radius);
+    padding: 32px;
+  }
+
+  @media (max-width: 900px) {
+    .faq-page-title {
+      font-size: 30px;
+    }
+
+    .faq-accordion-box {
+      padding: 20px 16px;
+    }
+  }
+</style>
+

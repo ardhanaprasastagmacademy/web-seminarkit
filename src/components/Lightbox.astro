@@ -1,0 +1,124 @@
+---
+---
+
+<div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-hidden="true" inert>
+  <div class="lightbox-scrim" aria-hidden="true"></div>
+
+  <div class="lightbox-content">
+    <div class="lightbox-topbar">
+      <span class="lightbox-counter">1 / 1</span>
+      <button type="button" class="lightbox-btn lightbox-close" aria-label="Tutup lightbox">
+        Tutup
+      </button>
+    </div>
+
+    <div class="lightbox-view">
+      <img src="" alt="" class="lightbox-image" />
+    </div>
+
+    <div class="lightbox-nav-bar">
+      <button type="button" class="lightbox-btn lightbox-prev" aria-label="Foto sebelumnya">
+        Sebelumnya
+      </button>
+      <button type="button" class="lightbox-btn lightbox-next" aria-label="Foto berikutnya">
+        Berikutnya
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .lightbox-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-modal.is-active {
+    display: flex;
+  }
+
+  .lightbox-scrim {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(7, 20, 47, 0.94);
+    cursor: pointer;
+  }
+
+  .lightbox-content {
+    position: relative;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 90vw;
+    height: 90vh;
+    pointer-events: none;
+  }
+
+  .lightbox-topbar,
+  .lightbox-nav-bar,
+  .lightbox-view {
+    pointer-events: auto;
+  }
+
+  .lightbox-topbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    color: var(--cream-100);
+  }
+
+  .lightbox-counter {
+    font-family: var(--font-body);
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    color: var(--cream-100);
+  }
+
+  .lightbox-btn {
+    background: transparent;
+    border: none;
+    color: var(--cream-100);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 16px;
+    transition: opacity 150ms var(--ease);
+  }
+
+  .lightbox-btn:hover {
+    opacity: 0.75;
+  }
+
+  .lightbox-view {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 90vw;
+    max-height: 75vh;
+  }
+
+  .lightbox-image {
+    max-width: 90vw;
+    max-height: 75vh;
+    object-fit: contain;
+    border: 1px solid rgba(255, 248, 220, 0.2);
+  }
+
+  .lightbox-nav-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+  }
+</style>
+

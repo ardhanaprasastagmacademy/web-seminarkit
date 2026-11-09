@@ -1,0 +1,425 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageBanner from '../../components/PageBanner.astro';
+import CtaSection from '../../components/CtaSection.astro';
+import { waLink } from '../../utils/wa.js';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.md$/, '') },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const currentSlug = post.id.replace(/\.md$/, '');
+const { Content, headings } = await render(post);
+
+// Filter h2 and h3 for Table of Contents
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+
+// Get related articles (the other 3)
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter((p) => p.id.replace(/\.md$/, '') !== currentSlug)
+  .slice(0, 3);
+
+const breadcrumbs = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: post.data.title }
+];
+
+const formattedDate = new Intl.DateTimeFormat('id-ID', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric'
+}).format(new Date(post.data.date));
+
+const sidebarWaUrl = waLink(`Halo Seminarkit, saya sedang membaca artikel "${post.data.title}" dan ingin berkonsultasi mengenai souvenir kantor.`, 'blog-sidebar');
+---
+
+<BaseLayout
+  title={`${post.data.metaTitle} — Seminarkit`}
+  description={post.data.description}
+  breadcrumbs={breadcrumbs}
+  ogImage={post.data.image.src}
+  ogType="article"
+  article={{
+    datePublished: post.data.date,
+    author: post.data.author
+  }}
+>
+  <PageBanner
+    title={post.data.title}
+    breadcrumb={breadcrumbs}
+  />
+
+  <section class="section section-cream-100 article-detail-section">
+    <div class="container">
+      <div class="article-layout-grid">
+        <!-- Main Article Column (Max 720px) -->
+        <article class="article-main-col">
+          <div class="article-meta-header">
+            <time datetime={new Date(post.data.date).toISOString()}>{formattedDate}</time>
+            <span class="meta-sep" aria-hidden="true">/</span>
+            <span>Penulis: {post.data.author}</span>
+          </div>
+
+          <!-- Main Image -->
+          <div class="article-hero-image-frame">
+            <Image
+              src={post.data.image}
+              alt={post.data.imageAlt}
+              width={900}
+              height={600}
+              class="article-hero-img"
+              loading="eager"
+            />
+          </div>
+
+          <!-- Table of Contents (Daftar Isi) -->
+          {tocHeadings.length > 0 && (
+            <nav class="article-toc" aria-label="Daftar Isi Artikel">
+              <span class="toc-title">Daftar Isi</span>
+              <ul class="toc-list">
+                {tocHeadings.map((h) => (
+                  <li class={`toc-item depth-${h.depth}`}>
+                    <a href={`#${h.slug}`} class="toc-link">
+                      {h.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+
+          <!-- Article Markdown Content -->
+          <div class="prose article-body">
+            <Content />
+          </div>
+
+          <!-- Supporting Image in Article -->
+          {post.data.supportImage && (
+            <figure class="article-support-figure">
+              <Image
+                src={post.data.supportImage}
+                alt={post.data.supportImageAlt || post.data.title}
+                width={800}
+                height={533}
+                class="article-support-img"
+                loading="lazy"
+              />
+              {post.data.supportImageAlt && (
+                <figcaption class="article-support-caption">
+                  {post.data.supportImageAlt}
+                </figcaption>
+              )}
+            </figure>
+          )}
+
+          <!-- Article Share / Back -->
+          <div class="article-footer-nav">
+            <a href="/blog/" class="text-link">
+              Kembali ke semua artikel
+            </a>
+          </div>
+        </article>
+
+        <!-- Sidebar Column (320px with 1px border) -->
+        <aside class="article-sidebar-col" aria-label="Sidebar Artikel">
+          <div class="sidebar-sticky-wrap">
+            <!-- Related Articles -->
+            <div class="sidebar-widget">
+              <h3 class="sidebar-heading">Artikel Terkait</h3>
+              <ul class="related-list">
+                {relatedPosts.map((rel) => {
+                  const relSlug = rel.id.replace(/\.md$/, '');
+                  const relDate = new Intl.DateTimeFormat('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                  }).format(new Date(rel.data.date));
+
+                  return (
+                    <li class="related-item">
+                      <a href={`/blog/${relSlug}/`} class="related-link">
+                        <span class="related-title">{rel.data.title}</span>
+                        <time class="related-date">{relDate}</time>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <!-- Small CTA Box -->
+            <div class="sidebar-cta-box">
+              <span class="sidebar-cta-eyebrow">Konsultasi Pemesanan</span>
+              <h4 class="sidebar-cta-title">Siapkan Souvenir Acara Anda</h4>
+              <p class="sidebar-cta-desc">
+                Dapatkan rekomendasi produk dan simulasi penawaran harga sesuai pagu anggaran kantor Anda.
+              </p>
+              <a
+                href={sidebarWaUrl}
+                class="btn btn-primary-invert btn-sm btn-sidebar-wa"
+                data-wa-source="blog-sidebar"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Konsultasi via WA
+              </a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <CtaSection
+    title="Siap Mengadakan Pengadaan Seminar Kit?"
+    description="Hubungi representatif Seminarkit untuk konsultasi spesifikasi bahan dan portofolio cetak logo perusahaan Anda."
+    buttonText="Konsultasi via WhatsApp"
+    source="blog-detail-bottom-cta"
+  />
+</BaseLayout>
+
+<style>
+  .article-layout-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 720px) 320px;
+    gap: 64px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .article-main-col {
+    max-width: 720px;
+  }
+
+  .article-meta-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+
+  .meta-sep {
+    opacity: 0.5;
+  }
+
+  .article-hero-image-frame {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border: 1px solid var(--cream-300);
+    margin-bottom: 36px;
+    background-color: var(--cream-50);
+  }
+
+  .article-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Table of Contents */
+  .article-toc {
+    background-color: var(--cream-50);
+    border: 1px solid var(--cream-300);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 40px;
+  }
+
+  .toc-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--navy-700);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .toc-item.depth-3 {
+    padding-left: 18px;
+  }
+
+  .toc-link {
+    font-size: 14px;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 150ms var(--ease);
+  }
+
+  .toc-link:hover {
+    color: var(--navy-700);
+  }
+
+  /* Support Image */
+  .article-support-figure {
+    margin: 40px 0;
+    border: 1px solid var(--cream-300);
+    overflow: hidden;
+    background-color: var(--cream-50);
+  }
+
+  .article-support-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .article-support-caption {
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-style: italic;
+    border-top: 1px solid var(--cream-300);
+    background-color: var(--cream-100);
+  }
+
+  .article-footer-nav {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--cream-300);
+  }
+
+  /* Sidebar */
+  .article-sidebar-col {
+    width: 320px;
+    border-left: 1px solid var(--cream-300);
+    padding-left: 36px;
+  }
+
+  .sidebar-sticky-wrap {
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .sidebar-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--navy-700);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--cream-300);
+  }
+
+  .related-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .related-item {
+    border-bottom: 1px solid var(--cream-300);
+  }
+
+  .related-link {
+    display: block;
+    padding: 14px 0;
+    text-decoration: none;
+    color: inherit;
+    transition: color 150ms var(--ease);
+  }
+
+  .related-link:hover .related-title {
+    color: var(--navy-700);
+  }
+
+  .related-title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .related-date {
+    display: block;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  /* Sidebar CTA Box */
+  .sidebar-cta-box {
+    background-color: var(--navy-700);
+    color: var(--cream-100);
+    padding: 24px;
+    border-radius: var(--radius);
+  }
+
+  .sidebar-cta-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brass);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .sidebar-cta-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--cream-100);
+    margin-bottom: 8px;
+    line-height: 1.25;
+  }
+
+  .sidebar-cta-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(255, 248, 220, 0.8);
+    margin-bottom: 20px;
+  }
+
+  .btn-sidebar-wa {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .article-layout-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .article-sidebar-col {
+      width: 100%;
+      border-left: none;
+      border-top: 1px solid var(--cream-300);
+      padding-left: 0;
+      padding-top: 40px;
+    }
+
+    .sidebar-sticky-wrap {
+      position: static;
+    }
+  }
+</style>
+

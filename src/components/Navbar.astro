@@ -1,0 +1,379 @@
+---
+import { siteConfig } from '../data/site.js';
+import { waLink } from '../utils/wa.js';
+
+const pathname = Astro.url.pathname;
+
+const navItems = [
+  { label: 'Beranda', href: '/' },
+  { label: 'Tentang', href: '/tentang/' },
+  { label: 'Produk', href: '/produk/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Galeri', href: '/galeri/' },
+  { label: 'Kontak', href: '/kontak/' },
+];
+
+function isActive(href: string) {
+  if (href === '/') {
+    return pathname === '/';
+  }
+  return pathname.startsWith(href);
+}
+---
+
+<header class="site-header" id="site-header">
+  <div class="container header-container">
+    <!-- Brand Logo -->
+    <a href="/" class="brand-logo" aria-label="Seminarkit Beranda">
+      <span class="logo-mark">Seminarkit</span>
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <nav class="desktop-nav" aria-label="Navigasi Utama">
+      <ul class="nav-list">
+        {navItems.map((item) => (
+          <li class="nav-item">
+            <a
+              href={item.href}
+              class="nav-link"
+              data-label={item.label}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Desktop CTA Button -->
+    <div class="header-action">
+      <a
+        href={waLink('Halo Seminarkit, saya ingin berkonsultasi mengenai pemesanan souvenir kantor.', 'navbar')}
+        class="btn btn-primary-invert btn-sm"
+        data-wa-source="navbar"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Pesan via WA
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button (2 thin lines + text "Menu") -->
+    <button
+      type="button"
+      class="mobile-menu-toggle"
+      id="mobile-menu-btn"
+      aria-label="Buka menu navigasi"
+      aria-expanded="false"
+      aria-controls="mobile-drawer"
+    >
+      <span class="menu-lines" aria-hidden="true">
+        <span class="menu-line"></span>
+        <span class="menu-line"></span>
+      </span>
+      <span class="menu-text">Menu</span>
+    </button>
+  </div>
+</header>
+
+<!-- Scrim Background for Mobile Drawer -->
+<div class="drawer-scrim" id="drawer-scrim" aria-hidden="true"></div>
+
+<!-- Mobile Drawer -->
+<div class="mobile-drawer" id="mobile-drawer" inert role="dialog" aria-modal="true" aria-label="Menu navigasi mobile">
+  <div class="drawer-header">
+    <span class="drawer-brand">Seminarkit</span>
+    <button type="button" class="drawer-close" id="mobile-close-btn" aria-label="Tutup menu navigasi">
+      Tutup
+    </button>
+  </div>
+
+  <nav class="drawer-nav" aria-label="Navigasi Menu Mobile">
+    <ul class="drawer-list">
+      {navItems.map((item) => (
+        <li class="drawer-item">
+          <a
+            href={item.href}
+            class="drawer-link"
+            data-label={item.label}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="drawer-footer">
+    <a
+      href={waLink('Halo Seminarkit, saya ingin berkonsultasi via WhatsApp.', 'mobile-drawer')}
+      class="btn btn-primary-invert btn-drawer-cta"
+      data-wa-source="mobile-drawer"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Pesan via WA
+    </a>
+    <div class="drawer-meta">
+      <p>{siteConfig.operatingHours}</p>
+      <p>WA: {siteConfig.waDisplay}</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-h);
+    background-color: var(--navy-700);
+    color: var(--cream-100);
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 248, 220, 0.12);
+    display: flex;
+    align-items: center;
+  }
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .brand-logo {
+    text-decoration: none;
+    color: var(--cream-100);
+  }
+
+  .logo-mark {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Reserved width bold technique from DESIGN.md */
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--cream-100);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: font-weight 0.15s var(--ease);
+  }
+
+  .nav-link::after {
+    content: attr(data-label);
+    font-weight: 700;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .nav-link:hover,
+  .nav-link[aria-current="page"] {
+    font-weight: 700;
+  }
+
+  .nav-link:focus {
+    outline: none;
+  }
+
+  .nav-link:focus-visible {
+    outline: 2px solid var(--cream-100);
+    outline-offset: 4px;
+  }
+
+  .header-action {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Mobile menu button */
+  .mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--cream-100);
+    cursor: pointer;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+  }
+
+  .menu-lines {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 22px;
+    height: 9px;
+  }
+
+  .menu-line {
+    width: 100%;
+    height: 1.5px;
+    background-color: var(--cream-100);
+  }
+
+  .menu-text {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--cream-100);
+  }
+
+  /* Scrim */
+  .drawer-scrim {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(7, 20, 47, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 320ms var(--ease);
+    z-index: 190;
+  }
+
+  .drawer-scrim.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Mobile Drawer */
+  .mobile-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(86vw, 340px);
+    height: 100vh;
+    background-color: var(--navy-700);
+    color: var(--cream-100);
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 320ms var(--ease);
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+  }
+
+  .mobile-drawer.is-open {
+    transform: translateX(0);
+  }
+
+  .drawer-header {
+    height: var(--header-h);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 248, 220, 0.14);
+  }
+
+  .drawer-brand {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .drawer-close {
+    background: transparent;
+    border: none;
+    color: var(--cream-100);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 0;
+  }
+
+  .drawer-nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 24px;
+  }
+
+  .drawer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .drawer-item {
+    border-bottom: 1px solid rgba(255, 248, 220, 0.14);
+  }
+
+  .drawer-link {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--cream-100);
+    text-decoration: none;
+    transition: font-weight 0.15s var(--ease);
+  }
+
+  .drawer-link:hover,
+  .drawer-link[aria-current="page"] {
+    font-weight: 700;
+  }
+
+  .drawer-footer {
+    padding: 24px;
+    border-top: 1px solid rgba(255, 248, 220, 0.14);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .btn-drawer-cta {
+    width: 100%;
+  }
+
+  .drawer-meta {
+    font-size: 12px;
+    color: rgba(255, 248, 220, 0.7);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .desktop-nav,
+    .header-action {
+      display: none;
+    }
+
+    .mobile-menu-toggle {
+      display: inline-flex;
+    }
+  }
+</style>
+
+<script>
+  import { initMenu } from '../scripts/menu.js';
+  initMenu();
+</script>
+

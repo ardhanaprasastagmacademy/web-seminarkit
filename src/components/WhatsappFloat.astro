@@ -1,0 +1,67 @@
+---
+import { waLink } from '../utils/wa.js';
+
+const floatUrl = waLink('Halo Seminarkit, saya ingin berkonsultasi mengenai pemesanan souvenir kantor.', 'float');
+---
+
+<aside class="wa-float-container" aria-label="Aksi Cepat WhatsApp">
+  <a
+    href={floatUrl}
+    class="wa-float-btn"
+    data-wa-source="float"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Pesan via WhatsApp (Membuka tab baru)"
+  >
+    <span class="wa-float-text">Pesan via WA</span>
+  </a>
+</aside>
+
+<style>
+  .wa-float-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 90;
+  }
+
+  .wa-float-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cream-100);
+    color: var(--navy-700);
+    border: 1.5px solid var(--navy-700);
+    border-radius: var(--radius);
+    padding: 12px 20px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(7, 20, 47, 0.08);
+    transition: background-color 200ms var(--ease), transform 200ms var(--ease);
+  }
+
+  .wa-float-btn:hover {
+    background-color: var(--cream-50);
+    transform: translateY(-2px);
+  }
+
+  .wa-float-btn:focus-visible {
+    outline: 2px solid var(--navy-700);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .wa-float-container {
+      bottom: 16px;
+      right: 16px;
+    }
+
+    .wa-float-btn {
+      padding: 10px 16px;
+      font-size: 13px;
+    }
+  }
+</style>
+
