@@ -12,6 +12,7 @@ export function initProductGallery() {
 
       if (targetSrc && mainImg) {
         mainImg.setAttribute('src', targetSrc);
+        mainImg.removeAttribute('srcset');
         if (targetAlt) {
           mainImg.setAttribute('alt', targetAlt);
         }
